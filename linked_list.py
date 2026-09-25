@@ -24,7 +24,7 @@ ROW_Y = 1.95    # altura de la fila principal de nodos
 BAJADA = 1.55   # cuánto bajan los nodos nuevos o los que se eliminan
 
 # Panel de código
-FUENTE_CODIGO = "Monospace"   # en Windows también puedes probar "Consolas"
+FUENTE_CODIGO = "Monospace"   
 TAM_CODIGO = 16
 
 # Código C++ que se muestra al costado de cada operación
