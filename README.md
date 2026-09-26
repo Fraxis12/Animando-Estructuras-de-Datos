@@ -45,18 +45,4 @@ En Linux, si la instalación falla, primero instala `libcairo2-dev libpango1.0-d
 
 La `p` abre el video al terminar de compilar.
 
-## Estructura del repositorio
 
-```
-linked_list.py     # toda la animación (escena ListaEnlazada)
-requirements.txt   # dependencias de Python
-README.md
-```
-
-## Personalizar
-
-Al inicio de `linked_list.py`:
-
-- `AUTOR_1`, `AUTOR_2`: nombres que aparecen en el video.
-- `TAM_CODIGO`: tamaño de la letra del panel de código.
-- `FUENTE_CODIGO`: fuente del panel. En Windows, si se ve delgada, cambiar `"Monospace"` por `"Consolas"`.
