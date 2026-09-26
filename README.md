@@ -1,18 +1,19 @@
 # Listas Enlazadas animadas con Manim
 
-Proyecto 1 de **CS2023 - Algoritmos y Estructuras de Datos** (UTEC).
-Autores: Francis Huerta Roque y Saúl Baltazar Palomino.
+Proyecto 1 de **CS2023 - Algoritmos y Estructuras de Datos**.
+Autores: Francis Huerta Roque & Saúl Baltazar Palomino.
 
 Video animado que muestra cómo funciona una **lista enlazada simple**: insertar al inicio, insertar al final, buscar y eliminar. Mientras se anima cada operación, al costado aparece su código en C++ con la línea que se ejecuta resaltada.
 
-🎬 **Video demo:** _(pegar link)_
+ **Video demo (con narración):** _https://drive.google.com/file/d/1grrLY2KJRfLTSAXFNBSluY9s-s0uEPfg/view_
+
+> El video que genera Manim no tiene audio. La narración, hecha con una voz de IA, se agregó en la edición final; la versión narrada es la del link.
 
 ## Requisitos
 
 - Python 3.9 o superior
 - Las librerías de `requirements.txt` (Manim Community)
 
-No se necesita LaTeX.
 
 ## Instalación y ejecución
 
@@ -44,5 +45,3 @@ En Linux, si la instalación falla, primero instala `libcairo2-dev libpango1.0-d
 | `-pqh` | 1080p, 60 fps | Versión final | `media/videos/linked_list/1080p60/` |
 
 La `p` abre el video al terminar de compilar.
-
-
