@@ -11,6 +11,7 @@ import textwrap
 
 import numpy as np
 from manim import *
+from manim.animation.animation import prepare_animation
 
 # Autores
 AUTOR_1 = "Francis Huerta Roque"
@@ -82,6 +83,16 @@ COD_ELIMINAR = """void eliminar(int x) {
 
 
 class ListaEnlazada(Scene):
+    # Multiplica la duración de todas las animaciones y pausas (wait pasa por play).
+    # 1.0 = ritmo original (~93 s). Con 1.35 y los self.wait extra de cada sección, que
+    # dejan tiempo a la narración, el video dura ~2 min 35 s.
+    RITMO = 1.35
+
+    def play(self, *animaciones, run_time=None, **kwargs):
+        animaciones = [prepare_animation(a) for a in animaciones]
+        base = run_time if run_time is not None else max(a.run_time for a in animaciones)
+        super().play(*animaciones, run_time=base * self.RITMO, **kwargs)
+
     def construct(self):
         self.txt_titulo = None     # título de la sección actual
         self.txt_subtitulo = None  # explicación del paso actual
@@ -312,7 +323,7 @@ class ListaEnlazada(Scene):
         grupo = VGroup(titulo, sub, autores).arrange(DOWN, buff=0.5)
         self.play(Write(titulo))
         self.play(FadeIn(sub), FadeIn(autores))
-        self.wait(2)
+        self.wait(6.7)
         self.play(FadeOut(grupo))
 
     def concepto(self):
@@ -327,15 +338,15 @@ class ListaEnlazada(Scene):
         lbl_sig.next_to(primero[1], DOWN, buff=0.2)
         self.subtitulo("Cada nodo guarda un valor y un puntero al siguiente nodo", espera=0.3)
         self.play(FadeIn(lbl_valor), self.resaltar(1), run_time=0.6)
-        self.wait(0.6)
+        self.wait(0.93)
         self.play(FadeIn(lbl_sig), self.resaltar(2), run_time=0.6)
-        self.wait(0.8)
+        self.wait(1.57)
         self.play(FadeOut(lbl_valor), FadeOut(lbl_sig))
 
         self.subtitulo("El último apunta a nullptr y head apunta al primero",
                        espera=0.3, resaltar=4)
         self.play(Indicate(self.nulo), Indicate(self.etiqueta_cabeza))
-        self.wait(1)
+        self.wait(2.5)
 
     def insertar_inicio(self, valor):
         self.seccion("Insertar al inicio  ·  O(1)", COD_INICIO)
@@ -347,21 +358,24 @@ class ListaEnlazada(Scene):
         nuevo.move_to([self.casilla_x(0, n + 1), ROW_Y - BAJADA, 0])
         self.play(*self.acomodar(n + 1, offset=1))
         self.play(FadeIn(nuevo, shift=UP * 0.3))
+        self.wait(1.07)
 
         self.subtitulo("2. Su sig apunta al antiguo head", espera=0.3, resaltar=3)
         nuevo.sig = self.cabeza
         nuevo.flecha_sal = self.flecha(nuevo[3].get_center(), self.destino_de(self.cabeza))
         self.play(Create(nuevo.flecha_sal))
         self.vincular(nuevo)
+        self.wait(0.53)
 
         self.subtitulo("3. head pasa a apuntar al nuevo nodo", espera=0.3, resaltar=4)
         self.re_enlazar_cabeza(nuevo)
+        self.wait(0.27)
 
         self.subtitulo("Solo cambiamos dos punteros: no importa el tamaño de la lista",
                        espera=0.3, resaltar=(3, 4))
         self.nodos.insert(0, nuevo)
         self.play(*self.acomodar())
-        self.wait(1)
+        self.wait(1.75)
 
     def insertar_final(self, valor):
         self.seccion("Insertar al final  ·  O(n)", COD_FINAL)
@@ -376,10 +390,11 @@ class ListaEnlazada(Scene):
         nuevo.flecha_sal = self.flecha(nuevo[3].get_center(), self.destino_de(None))
         self.play(Create(nuevo.flecha_sal))
         self.vincular(nuevo)
+        self.wait(0.34)
 
         self.subtitulo("¿La lista está vacía? No: hay que buscar el último",
                        espera=0.5, resaltar=4)
-        self.subtitulo("2. actual recorre la lista desde head", espera=0.3, resaltar=8)
+        self.subtitulo("2. actual recorre la lista desde head", espera=2.15, resaltar=8)
 
         def mensaje(nd, ultimo):
             if ultimo:
@@ -390,14 +405,16 @@ class ListaEnlazada(Scene):
 
         self.subtitulo("3. El último nodo apunta al nuevo", espera=0.3, resaltar=11)
         self.re_enlazar(self.nodos[-1], nuevo)
+        self.wait(1.0)
         self.limpiar_recorrido(cursor)
         self.nodos.append(nuevo)
         self.play(*self.acomodar())
-        self.wait(1)
+        self.wait(1.4)
 
     def buscar(self, valor):
         self.seccion("Buscar  ·  O(n)", COD_BUSCAR)
         idx = next(i for i, nd in enumerate(self.nodos) if nd.valor == valor)
+        self.wait(0.85)
 
         self.subtitulo(f"Buscamos x = {valor}: actual parte desde head",
                        espera=0.3, resaltar=1)
@@ -411,7 +428,7 @@ class ListaEnlazada(Scene):
                   self.resaltar(4, color=GREEN))
         self.wait(0.5)
         self.subtitulo("En el peor caso recorremos toda la lista: O(n)",
-                       espera=1.5, resaltar=(2, 6))
+                       espera=2.5, resaltar=(2, 6))
         self.limpiar_recorrido(cursor)
 
     def eliminar(self, valor):
@@ -441,11 +458,13 @@ class ListaEnlazada(Scene):
             self.subtitulo(f"¿x está en head? {primero.valor} ≠ {valor}: no",
                            espera=0.3, resaltar=1)
             self.play(Indicate(primero))
+            self.wait(1.82)
 
             self.subtitulo("1. anterior camina hasta quedar justo antes de x",
                            espera=0.3, resaltar=7)
             anterior = self.crear_cursor(primero, "anterior", TEAL)
             self.play(FadeIn(anterior))
+            self.wait(0.99)
             for i in range(idx):
                 siguiente = self.nodos[i + 1]
                 es_x = (i + 1 == idx)
@@ -483,12 +502,13 @@ class ListaEnlazada(Scene):
                            espera=1.2, resaltar=(1, 5))
         else:
             self.subtitulo("Reconectar es O(1): lo que cuesta es buscar, O(n)",
-                           espera=1.2, resaltar=(8, 9))
+                           espera=1.9, resaltar=(8, 9))
 
     def complejidad(self):
         self.limpiar_escena()
         titulo = self.crear_titulo("Complejidad de las operaciones")
         self.play(FadeIn(titulo))
+        self.wait(0.76)
         filas = [["Operación", "Tiempo"],
                  ["Insertar al inicio", "O(1)"],
                  ["Insertar al final (sin puntero tail)", "O(n)"],
@@ -506,5 +526,5 @@ class ListaEnlazada(Scene):
         hecho = Text("Hecho con Manim Community", font_size=22, color=GRAY)
         grupo = VGroup(gracias, autores, hecho).arrange(DOWN, buff=0.5)
         self.play(FadeIn(grupo))
-        self.wait(3)
+        self.wait(4.6)
         self.play(FadeOut(grupo))
