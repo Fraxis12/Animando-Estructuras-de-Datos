@@ -1,83 +1,62 @@
-# Animando Estructuras de Datos: Listas Enlazadas
+# Listas Enlazadas animadas con Manim
 
-Proyecto 1 del curso **CS2023 - Algoritmos y Estructuras de Datos**.
+Proyecto 1 de **CS2023 - Algoritmos y Estructuras de Datos** (UTEC).
+Autores: Francis Huerta Roque y Saúl Baltazar Palomino.
 
-Animación hecha con [Manim Community](https://www.manim.community/) que explica, paso a paso,
-cómo funciona una **lista enlazada simple**: qué es, cómo se inserta (al inicio y al final),
-cómo se busca un valor, cómo se elimina un nodo y cuál es la complejidad de cada operación.
-Mientras se anima cada operación, al costado aparece su **código en C++** y se resalta
-la línea que se está ejecutando en ese momento.
+Video animado que muestra cómo funciona una **lista enlazada simple**: insertar al inicio, insertar al final, buscar y eliminar. Mientras se anima cada operación, al costado aparece su código en C++ con la línea que se ejecuta resaltada.
 
-**Autores:** Francis Huerta Roque, Saúl Baltazar Palomino
+🎬 **Video demo:** _(pegar link)_
 
-**Video demo:** _( enlace pendiente)_
-
-## Software requerido
+## Requisitos
 
 - Python 3.9 o superior
-- [Manim Community](https://docs.manim.community/en/stable/installation.html) (≥ 0.19)
-- FFmpeg
-- Cairo y Pango (dependencias de Manim). No se necesita LaTeX: el video solo usa `Text` y `Code`.
+- Las librerías de `requirements.txt` (Manim Community)
 
-## Instalación
+No se necesita LaTeX.
 
-Con pip (en Ubuntu/Debian primero instalar `libcairo2-dev libpango1.0-dev pkg-config ffmpeg`):
+## Instalación y ejecución
+
+**Windows (PowerShell):**
+
+```powershell
+python -m venv .venv
+.venv\Scripts\activate
+pip install -r requirements.txt
+python -m manim -pqh linked_list.py ListaEnlazada
+```
+
+**Linux / macOS:**
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-```
-
-O con conda, que ya trae las dependencias de sistema:
-
-```bash
-conda create -n manim -c conda-forge python=3.12 manim ffmpeg
-conda activate manim
-```
-
-## Cómo compilarlo y ejecutarlo
-
-Manim genera el video al renderizar la escena `ListaEnlazada` de [linked_list.py](linked_list.py):
-
-```bash
-# Vista previa rápida (480p15)
-manim -pql linked_list.py ListaEnlazada
-
-# Alta resolución (1080p60, mp4) para la entrega
 manim -pqh linked_list.py ListaEnlazada
 ```
 
-El video queda en `media/videos/linked_list/1080p60/ListaEnlazada.mp4`.
-Los nombres de los autores están en `AUTOR_1` y `AUTOR_2`, al inicio de `linked_list.py`.
+En Linux, si la instalación falla, primero instala `libcairo2-dev libpango1.0-dev pkg-config`.
 
-## La estructura: lista enlazada simple
+## Calidad del video
 
-Una lista enlazada es una secuencia de **nodos**. Cada nodo guarda un **valor** y un
-**puntero al siguiente nodo** (`sig`); el último apunta a `nullptr`, y un puntero llamado
-**head** señala el primer nodo. A diferencia de un arreglo, los nodos no están contiguos en memoria,
-así que insertar o eliminar solo requiere cambiar punteros, sin desplazar elementos.
+| Opción | Resolución | Uso | El video queda en |
+|---|---|---|---|
+| `-pql` | 480p, 15 fps | Vista previa rápida | `media/videos/linked_list/480p15/` |
+| `-pqh` | 1080p, 60 fps | Versión final | `media/videos/linked_list/1080p60/` |
 
-```cpp
-struct Nodo {
-    int valor;
-    Nodo* sig;
-};
+La `p` abre el video al terminar de compilar.
+
+## Estructura del repositorio
+
+```
+linked_list.py     # toda la animación (escena ListaEnlazada)
+requirements.txt   # dependencias de Python
+README.md
 ```
 
-| Operación                              | Tiempo |
-|----------------------------------------|--------|
-| Insertar al inicio                     | O(1)   |
-| Insertar al final (sin puntero `tail`) | O(n)   |
-| Buscar                                 | O(n)   |
-| Eliminar (buscando el nodo)            | O(n)   |
+## Personalizar
 
-## Contenido del video (~93 s)
+Al inicio de `linked_list.py`:
 
-1. Título y autores
-2. Qué es una lista enlazada (`struct Nodo`)
-3. Insertar al inicio
-4. Insertar al final
-5. Buscar un valor
-6. Eliminar un nodo (guardar → reconectar → delete)
-7. Tabla de complejidad y créditos
+- `AUTOR_1`, `AUTOR_2`: nombres que aparecen en el video.
+- `TAM_CODIGO`: tamaño de la letra del panel de código.
+- `FUENTE_CODIGO`: fuente del panel. En Windows, si se ve delgada, cambiar `"Monospace"` por `"Consolas"`.
